@@ -24,6 +24,7 @@ public class UserController {
         return "index";
     }
 
+    /*
     @PostMapping("/users")
     public String formPost(Model model, ServerWebExchange serverWebExchange) {
         MultiValueMap<String, String> map = serverWebExchange.getFormData().block();
@@ -38,6 +39,20 @@ public class UserController {
         }
 
         model.addAttribute("users", apiService.getUsers(limit));
+
+        return "userlist";
+    }
+
+    */
+
+    @PostMapping("/users")
+    public String formPost(Model model, ServerWebExchange serverWebExchange) {
+        model.addAttribute(
+                "users",
+                apiService
+                        .getUsers(serverWebExchange
+                                .getFormData()
+                                .map(data -> new Integer(data.getFirst("limit")))));
 
         return "userlist";
     }
